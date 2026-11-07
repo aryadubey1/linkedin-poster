@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Entry point (CLI + MCP server). Runs the venv python next to this repo.
+DIR="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"
+cd "$DIR" && exec "$DIR/.venv/bin/python" -m linkedin_poster "$@"

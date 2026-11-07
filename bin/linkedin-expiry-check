@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# For a daily brief: prints one line when the LinkedIn token needs attention, nothing otherwise. Always exits 0.
+DIR="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"
+"$DIR/bin/linkedin-poster" expiry "${1:-10}" 2>/dev/null || true

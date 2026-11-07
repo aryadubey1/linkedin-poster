@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+client*.json
+!client.example.json
+token*.json
+pending/
+*.env
+posted.jsonl
+blocklist.txt

@@ -1,0 +1,5 @@
+{
+  "client_id": "paste the Client ID from the app's Auth tab",
+  "client_secret": "paste the Primary Client Secret from the app's Auth tab",
+  "redirect_uri": "https://example.com/oauth/linkedin"
+}

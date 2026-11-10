@@ -29,7 +29,7 @@ BLOCKLIST = CONFIG_DIR / "blocklist.txt"
 AUTH_URL = "https://www.linkedin.com/oauth/v2/authorization"
 TOKEN_URL = "https://www.linkedin.com/oauth/v2/accessToken"
 USERINFO_URL = "https://api.linkedin.com/v2/userinfo"
-SCOPES = ["openid", "profile", "w_member_social"]
+SCOPES = ["openid", "profile", "email", "w_member_social"]
 PENDING_TTL = 30 * 60  # LinkedIn's authorization code lifespan
 DAY = 86400
 

@@ -1,7 +1,25 @@
 # linkedin-poster
 
-Post to your own LinkedIn profile from Claude (MCP) or the command line, through LinkedIn's official API.
-Text, an optional image and an optional link, always behind a dry-run preview.
+Post to your own LinkedIn profile from an AI agent (Claude, over MCP) or the command line, through LinkedIn's
+**official API**. No scraping, no password, no browser automation.
+
+Built so an agent can draft posts while a human stays in control: every post is a **dry-run preview** until it is
+explicitly confirmed, and a content checker blocks things that should never go public (private names, server paths,
+IPs, tokens, duplicate posts).
+
+```
+ agent drafts ─► preview (warnings / blockers) ─► human says "yes" ─► post(confirm=true) ─► LinkedIn
+                         │                                                    │
+                         └──────── nothing is sent before this point ─────────┘
+```
+
+**Highlights**
+- MCP server (5 tools) + CLI from the same code, about 750 lines of Python, one dependency (`mcp`)
+- OAuth 2.0 authorization-code flow with paste-back (works from a phone; no local web server needed)
+- Text, image (upload via the Images API) and link-card posts; LinkedIn "little" text escaping
+- Secrets live in a `chmod 700` folder outside the repo; 27 offline tests with faked HTTP + an MCP smoke test
+
+## How it fits together
 
 ```
 Claude Code ──stdio──► bin/linkedin-poster serve ──► api.linkedin.com/rest  (Posts + Images, LinkedIn-Version 202610)
@@ -55,6 +73,14 @@ linkedin-poster status | auth | finish '<url>' | preview ... | post ... [--yes] 
 linkedin-poster preview --text-file post.txt --image cover.png --link https://example.com/post
 bin/linkedin-expiry-check 10     # prints one line when the token needs attention, else nothing (for a daily brief)
 ```
+
+## Troubleshooting
+| Symptom | Cause / fix |
+|---|---|
+| `openid_insufficient_scope_error` or `Unknown scope "w_memb"` although the app has both products | the consent link was **truncated** by the app you opened it from (some chat UIs cut long URLs). Open the full link, e.g. copy it from the terminal or send it through a messenger that keeps long links |
+| `redirect_uri doesn't match` | the Auth-tab URL must equal `redirect_uri` in `client.json` exactly |
+| 403 / no `w_member_social` | add the **Share on LinkedIn** product, then re-auth |
+| 401 / expired | tokens last 60 days with no refresh for self-serve apps: run `auth` again |
 
 ## Tests (no LinkedIn account needed, nothing is sent)
 ```bash
